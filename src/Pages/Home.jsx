@@ -1,14 +1,6 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { IoPauseOutline, IoClose, IoAdd } from "react-icons/io5";
 
 export default function Home() {
   return (
@@ -20,26 +12,16 @@ export default function Home() {
         <span className="text-2xl text-[#D4D4D4] font-semibold italic">
           track and record your work times on one page
         </span>
-        <Card className="w-[350px]">
-          <CardHeader>
-            <CardTitle>Create project</CardTitle>
-            <CardDescription>
-              Deploy your new project in one-click.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" placeholder="Name of your project" />
-                </div>
-              </div>
-            </form>
+        <Card className="w-[340px] h-[380px] bg-[#171717] border-none mt-[60px]">
+          <CardContent className="flex items-center justify-center">
+            <div className="flex items-center justify-center w-[260px] h-[260px] bg-neutral-700 rounded-full border-[5px] border-[#e99d28]">
+              <span className="text-5xl text-[#E5E5E5]">30:00</span>
+            </div>
           </CardContent>
-          <CardFooter className="flex justify-between">
-            <Button variant="outline">Cancel</Button>
-            <Button>Deploy</Button>
+          <CardFooter className="relative h-[100px]">
+            <IoAdd className="text-white text-2xl absolute right-4 top-4" />
+            <IoClose className="text-white text-2xl absolute left-4 bottom-4" />
+            <IoPauseOutline className="text-white text-2xl absolute right-4 bottom-4" />
           </CardFooter>
         </Card>
       </div>
