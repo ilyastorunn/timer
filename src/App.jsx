@@ -1,10 +1,11 @@
-import "./App.css";
+import CountdownTimer from "./Pages/CountdownTimer";
 import Home from "./Pages/Home";
 
 function App() {
   return (
     <>
-      <Home />
+      {/* <Home /> */}
+      <CountdownTimer />
     </>
   );
 }
