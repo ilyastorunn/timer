@@ -1,10 +1,19 @@
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { IoPauseOutline, IoClose, IoAdd } from "react-icons/io5";
+import { useState } from "react";
 
+const Home = () => {
+  const [time, setTime] = useState(30);
 
+  const handleTimeChange = (e) => {
+    const value = e.target.value;
+    if (value >= 0 && value <= 60) {
+      setTime(value);
+    }
+  };
 
-function Home() {
   return (
     <>
       <div className="bg-[#0A0A0A] h-screen flex flex-col items-center relative pt-[40px]">
@@ -19,6 +28,14 @@ function Home() {
           <CardContent className="flex items-center justify-center">
             <div className="flex items-center justify-center w-[260px] h-[260px] bg-neutral-700 rounded-full border-[5px] border-[#e99d28]">
               <span className="text-5xl text-[#E5E5E5]">30:00</span>
+              {/* <Input
+                type="number"
+                value={time}
+                onChange={handleTimeChange}
+                className="text-5xl text-[#E5E5E5] bg-transparent border-none"
+                min={0}
+                max={60}
+              /> */}
             </div>
           </CardContent>
 
@@ -30,6 +47,6 @@ function Home() {
       </div>
     </>
   );
-}
+};
 
 export default Home;
