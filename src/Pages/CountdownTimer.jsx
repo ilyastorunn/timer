@@ -44,12 +44,32 @@ const CountdownTimer = () => {
           <IoAdd className="text-white text-2xl absolute right-4 top-4" />
           <CardContent className="flex items-center justify-center">
             <div className="flex items-center justify-center w-[260px] h-[260px] bg-neutral-700 rounded-full border-[5px] border-[#e99d28]">
-              <span className="text-5xl text-[#E5E5E5]">30:00</span>
+              <span className="text-5xl text-[#E5E5E5]">
+                {`${minutes}:${seconds}`}
+              </span>
+              <input
+                type="number"
+                value={inputMinutes}
+                onChange={(e) => setInputMinutes(Number(e.target.value))}
+              />
             </div>
           </CardContent>
           <CardFooter className="relative h-[60px]">
-            <IoClose className="text-white text-2xl absolute left-4 bottom-4" />
-            <IoPauseOutline className="text-white text-2xl absolute right-4 bottom-4" />
+            <button
+              className="hover:text-[#404040] text-[#E5E5E5]"
+              onClick={() => setIsRunning(false)}
+            >
+              <IoClose className="text-2xl absolute left-4 bottom-4" />
+            </button>
+            <button
+              className="hover:text-[#404040] text-[#E5E5E5]"
+              onClick={() => {
+                setTimeRemaining(inputMinutes * 60);
+                setIsRunning(true);
+              }}
+            >
+              <IoPauseOutline className="text-2xl absolute right-4 bottom-4" />
+            </button>
           </CardFooter>
         </Card>
       </div>
