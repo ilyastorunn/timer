@@ -28,14 +28,6 @@ const Home = () => {
           <CardContent className="flex items-center justify-center">
             <div className="flex items-center justify-center w-[260px] h-[260px] bg-neutral-700 rounded-full border-[5px] border-[#e99d28]">
               <span className="text-5xl text-[#E5E5E5]">30:00</span>
-              {/* <Input
-                type="number"
-                value={time}
-                onChange={handleTimeChange}
-                className="text-5xl text-[#E5E5E5] bg-transparent border-none"
-                min={0}
-                max={60}
-              /> */}
             </div>
           </CardContent>
 
