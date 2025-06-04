@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { IoPauseOutline, IoClose, IoAdd } from "react-icons/io5";
-import { FaPlus } from "react-icons/fa6";
+import { FaPlus, FaPlay, FaStop } from "react-icons/fa6";
 import { VscDebugRestart } from "react-icons/vsc";
 import { GoTrash } from "react-icons/go";
 import {
@@ -80,7 +80,6 @@ const CountdownTimer = () => {
 
   const addTimer = () => {
     if (newTimerMinutes <= 0) return;
-
     setTimers((prevTimers) => {
       const newTimer = {
         id: Date.now(),
@@ -152,15 +151,13 @@ const CountdownTimer = () => {
                 className="w-[340px] h-[340px] bg-[#171717] border-none relative"
               >
                 <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute left-4 top-4"
+                  className="absolute left-4 top-4 hover:text-[#f5f5f5] transition text-neutral-400 cursor-pointer duration-200"
                   onClick={() => resetTimer(timer.id)}
                 >
-                  <VscDebugRestart className="text-white text-2xl" />
+                  <VscDebugRestart className="w-5 h-5" />
                 </Button>
                 <Button
-                  className="absolute right-4 top-4 hover:text-red-500 transition text-white cursor-pointer"
+                  className="absolute right-4 top-4 hover:text-red-500 transition text-neutral-400 cursor-pointer duration-200"
                   onClick={() => removeTimer(timer.id)}
                 >
                   <GoTrash className="w-5 h-5" />
@@ -178,21 +175,61 @@ const CountdownTimer = () => {
                       disabled={timer.isRunning}
                     />
                   </div>
+                  {/* <div className="relative flex items-center justify-center w-[260px] h-[260px]">
+                    <svg
+                      width="260"
+                      height="260"
+                      className="absolute top-0 left-0"
+                    >
+                      <circle
+                        cx="130"
+                        cy="130"
+                        r="122"
+                        fill="none"
+                        stroke="#e99d28"
+                        strokeWidth="8"
+                        strokeDasharray={2 * Math.PI * 122}
+                        strokeDashoffset={
+                          (1 -
+                            timer.timeRemaining /
+                              (timer.initialTime || timer.timeRemaining)) *
+                          2 *
+                          Math.PI *
+                          122
+                        }
+                        style={{ transition: "stroke-dashoffset 0.5s linear" }}
+                      />
+                    </svg>
+                    <div className="flex items-center justify-center w-[244px] h-[244px] bg-neutral-700 rounded-full">
+                      <input
+                        type="text"
+                        value={`${minutes}:${seconds.toString().padStart(2, "0")}`}
+                        onChange={(e) => {
+                          const [mins, secs] = e.target.value.split(":").map(Number);
+                          updateTimerTime(timer.id, mins, secs)
+                        }}
+                        className="text-4xl md:text-5xl text-[#e5e5e5] bg-transparent border-none text-center w-[110px] md:w-[120px] focus:outline-none"
+                        disabled={timer.isRunning}
+                      />
+                    </div>
+                  </div> */}
                 </CardContent>
                 <CardFooter className="relative h-[60px] flex items-center justify-center gap-4">
                   <button
-                    className={`hover:text-[#404040] text-[#e5e5e5] ${timer.isRunning ? '' : 'opacity-60'}`}
+                    // className={`hover:text-[#404040] text-neutral-400 ${timer.isRunning ? '' : 'opacity-60'}`}
+                    className="hover:text-[#404040] text-neutral-200 transition cursor-pointer duration-200"
                     onClick={() => toggleTimer(timer.id)}
                     disabled={!timer.isRunning}
                   >
-                    <IoClose className="text-2xl" />
+                    <FaStop className="w-5 h-5" />
                   </button>
                   <button
-                    className={`hover:text-[#404040] text-[#e5e5e5] ${!timer.isRunning ? '' : 'opacity-60'}`}
+                    // className={`hover:text-[#404040] text-neutral-200 ${!timer.isRunning ? '' : 'opacity-60'}`}
+                    className="hover:text-[#404040] text-neutral-200 transition cursor-pointer duration-200"
                     onClick={() => toggleTimer(timer.id)}
                     disabled={timer.isRunning}
                   >
-                    <IoPauseOutline className="text-2xl" />
+                    <FaPlay className="w-5 h-5" />
                   </button>
                 </CardFooter>
               </Card>
@@ -234,30 +271,6 @@ const CountdownTimer = () => {
         </Dialog>
       </div>
     </>
-    // <div className="relative">
-    //   <p>Countdown Timer:</p>
-    //   <p>{`${hours}h ${minutes}m ${seconds}s`}</p>
-    //   <input
-    //     type="number"
-    //     value={inputMinutes}
-    //     onChange={(e) => setInputMinutes(Number(e.target.value))}
-    //   />
-    //   <button
-    //     className="bg-blue-500 hover:bg-yellow-500 p-2"
-    //     onClick={() => {
-    //       setTimeRemaining(inputMinutes * 60);
-    //       setIsRunning(true);
-    //     }}
-    //   >
-    //     Start Timer!
-    //   </button>
-    //   <button
-    //     className="bg-yellow-500 hover:bg-blue-500"
-    //     onClick={() => setIsRunning(false)}
-    //   >
-    //     Stop Timer!
-    //   </button>
-    // </div>
   );
 };
 
