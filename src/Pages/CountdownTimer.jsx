@@ -53,7 +53,7 @@ const CountdownTimer = () => {
     const intervals = timers.map((timer) => {
       if (timer.isRunning && timer.timeRemaining > 0) {
         return setInterval(() => {
-          setNewTimerMinutes((prevTimers) =>
+          setTimers((prevTimers) =>
             prevTimers.map((t) => {
               if (t.id === timer.id) {
                 if (t.timeRemaining <= 1) {
@@ -160,7 +160,7 @@ const CountdownTimer = () => {
                   <VscDebugRestart className="text-white text-2xl" />
                 </Button>
                 <Button
-                  className="absolute right-4 top-4 hover:text-red-500 transition text-white"
+                  className="absolute right-4 top-4 hover:text-red-500 transition text-white cursor-pointer"
                   onClick={() => removeTimer(timer.id)}
                 >
                   <GoTrash className="w-5 h-5" />
@@ -169,30 +169,30 @@ const CountdownTimer = () => {
                   <div className="flex items-center justify-center w-[260px] h-[260px] bg-neutral-700 rounded-full border-[5px] border-[#e99d28]">
                     <input
                       type="text"
-                      value={`${minutes}:${seconds
-                        .toString()
-                        .padStart(2, "0")}`}
+                      value={`${minutes}:${seconds.toString().padStart(2, "0")}`}
                       onChange={(e) => {
-                        const [mins, secs] = e.target.value
-                          .split(":")
-                          .map(Number);
+                        const [mins, secs] = e.target.value.split(":").map(Number);
                         updateTimerTime(timer.id, mins, secs);
                       }}
-                      className="text-5xl text-[#e5e5e5] bg-transparent border-none text-center w-[120px] focus:outline-none"
+                      className="text-4xl md:text-5xl text-[#e5e5e5] bg-transparent border-none text-center w-[110px] md:w-[120px] focus:outline-none"
                       disabled={timer.isRunning}
                     />
                   </div>
                 </CardContent>
-                <CardFooter className="relative h-[60px]">
+                <CardFooter className="relative h-[60px] flex items-center justify-center gap-4">
                   <button
-                    className="hover:text-[#404040] text-[#e5e5e5]"
+                    className={`hover:text-[#404040] text-[#e5e5e5] ${timer.isRunning ? '' : 'opacity-60'}`}
                     onClick={() => toggleTimer(timer.id)}
+                    disabled={!timer.isRunning}
                   >
-                    {timer.isRunning ? (
-                      <IoClose className="text-2xl absolute left-4 bottom-4" />
-                    ) : (
-                      <IoPauseOutline className="text-2xl absolute right-4 bottom-4" />
-                    )}
+                    <IoClose className="text-2xl" />
+                  </button>
+                  <button
+                    className={`hover:text-[#404040] text-[#e5e5e5] ${!timer.isRunning ? '' : 'opacity-60'}`}
+                    onClick={() => toggleTimer(timer.id)}
+                    disabled={timer.isRunning}
+                  >
+                    <IoPauseOutline className="text-2xl" />
                   </button>
                 </CardFooter>
               </Card>
