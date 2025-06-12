@@ -4,8 +4,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { IoPauseOutline, IoClose, IoAdd } from "react-icons/io5";
-import { FaPlus, FaPlay, FaStop } from "react-icons/fa6";
-import { VscDebugRestart } from "react-icons/vsc";
+import { FaPlus } from "react-icons/fa6";
+import { VscDebugRestart, VscDebugStart, VscDebugStop } from "react-icons/vsc";
 import { GoTrash } from "react-icons/go";
 import {
   Dialog,
@@ -18,9 +18,27 @@ import {
 const CountdownTimer = () => {
   const [timers, setTimers] = useState(() => {
     const savedTimers = localStorage.getItem("timers");
-    return savedTimers
-      ? JSON.parse(savedTimers)
-      : [{ id: 1, timeRemaining: 40 * 60, isRunning: false }];
+    const defaultTimer = { id: 1, timeRemaining: 40 * 60, isRunning: false };
+
+    if (savedTimers) {
+      try {
+        const parsed = JSON.parse(savedTimers);
+        if (Array.isArray(parsed) && parsed.length) {
+          return parsed.map((t, idx) => ({
+            id: t?.id ?? Date.now() + idx,
+            timeRemaining:
+              typeof t?.timeRemaining === "number" && !isNaN(t.timeRemaining)
+                ? t.timeRemaining
+                : defaultTimer.timeRemaining,
+            isRunning: !!t?.isRunning,
+          }));
+        }
+      } catch (e) {
+        // Corrupted localStorage, fall back to default
+      }
+    }
+
+    return [defaultTimer];
   });
   // const [isRunning, setIsRunning] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -142,8 +160,12 @@ const CountdownTimer = () => {
           }`}
         >
           {timers.map((timer) => {
-            const minutes = Math.floor((timer.timeRemaining % 3600) / 60);
-            const seconds = timer.timeRemaining % 60;
+            const validTimeRemaining =
+              typeof timer.timeRemaining === "number" && !isNaN(timer.timeRemaining)
+                ? timer.timeRemaining
+                : 0;
+            const minutes = Math.floor((validTimeRemaining % 3600) / 60);
+            const seconds = validTimeRemaining % 60;
 
             return (
               <Card
@@ -171,7 +193,7 @@ const CountdownTimer = () => {
                         const [mins, secs] = e.target.value.split(":").map(Number);
                         updateTimerTime(timer.id, mins, secs);
                       }}
-                      className="text-4xl md:text-5xl text-[#e5e5e5] bg-transparent border-none text-center w-[110px] md:w-[120px] focus:outline-none"
+                      className="text-4xl md:text-4xl text-[#e5e5e5] bg-transparent border-none text-center w-[110px] md:w-[120px] focus:outline-none"
                       disabled={timer.isRunning}
                     />
                   </div>
@@ -214,22 +236,23 @@ const CountdownTimer = () => {
                     </div>
                   </div> */}
                 </CardContent>
-                <CardFooter className="relative h-[60px] flex items-center justify-center gap-4">
+                <CardFooter className="relative h-[60px]">
+                  {/* Stop button - aligned with restart (left bottom) */}
                   <button
-                    // className={`hover:text-[#404040] text-neutral-400 ${timer.isRunning ? '' : 'opacity-60'}`}
-                    className="hover:text-[#404040] text-neutral-200 transition cursor-pointer duration-200"
+                    className="absolute left-4 bottom-4 hover:text-[#404040] text-neutral-200 transition cursor-pointer duration-200"
                     onClick={() => toggleTimer(timer.id)}
                     disabled={!timer.isRunning}
                   >
-                    <FaStop className="w-5 h-5" />
+                    <VscDebugStop className="w-5 h-5" />
                   </button>
+
+                  {/* Start button - aligned with trash (right bottom) */}
                   <button
-                    // className={`hover:text-[#404040] text-neutral-200 ${!timer.isRunning ? '' : 'opacity-60'}`}
-                    className="hover:text-[#404040] text-neutral-200 transition cursor-pointer duration-200"
+                    className="absolute right-4 bottom-4 hover:text-[#404040] text-neutral-200 transition cursor-pointer duration-200"
                     onClick={() => toggleTimer(timer.id)}
                     disabled={timer.isRunning}
                   >
-                    <FaPlay className="w-5 h-5" />
+                    <VscDebugStart className="w-5 h-5" />
                   </button>
                 </CardFooter>
               </Card>
