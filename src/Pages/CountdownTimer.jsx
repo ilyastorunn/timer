@@ -43,6 +43,7 @@ const CountdownTimer = () => {
   // const [isRunning, setIsRunning] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newTimerMinutes, setNewTimerMinutes] = useState(40);
+  const [currentTime, setCurrentTime] = useState("");
 
   // useEffect(() => {
   //   let timerInterval;
@@ -90,6 +91,17 @@ const CountdownTimer = () => {
     return () =>
       intervals.forEach((interval) => interval && clearInterval(interval));
   }, [timers]);
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const formatted = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      setCurrentTime(formatted);
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const openDialog = () => {
     setIsDialogOpen(true);
@@ -197,63 +209,22 @@ const CountdownTimer = () => {
                       disabled={timer.isRunning}
                     />
                   </div>
-                  {/* <div className="relative flex items-center justify-center w-[260px] h-[260px]">
-                    <svg
-                      width="260"
-                      height="260"
-                      className="absolute top-0 left-0"
-                    >
-                      <circle
-                        cx="130"
-                        cy="130"
-                        r="122"
-                        fill="none"
-                        stroke="#e99d28"
-                        strokeWidth="8"
-                        strokeDasharray={2 * Math.PI * 122}
-                        strokeDashoffset={
-                          (1 -
-                            timer.timeRemaining /
-                              (timer.initialTime || timer.timeRemaining)) *
-                          2 *
-                          Math.PI *
-                          122
-                        }
-                        style={{ transition: "stroke-dashoffset 0.5s linear" }}
-                      />
-                    </svg>
-                    <div className="flex items-center justify-center w-[244px] h-[244px] bg-neutral-700 rounded-full">
-                      <input
-                        type="text"
-                        value={`${minutes}:${seconds.toString().padStart(2, "0")}`}
-                        onChange={(e) => {
-                          const [mins, secs] = e.target.value.split(":").map(Number);
-                          updateTimerTime(timer.id, mins, secs)
-                        }}
-                        className="text-4xl md:text-5xl text-[#e5e5e5] bg-transparent border-none text-center w-[110px] md:w-[120px] focus:outline-none"
-                        disabled={timer.isRunning}
-                      />
-                    </div>
-                  </div> */}
                 </CardContent>
-                <CardFooter className="relative h-[60px]">
-                  {/* Stop button - aligned with restart (left bottom) */}
-                  <button
-                    className="absolute left-4 bottom-4 hover:text-[#404040] text-neutral-200 transition cursor-pointer duration-200"
+                <CardFooter className="h-[60px]">
+                  <Button
+                    className="absolute left-4 bottom-4 hover:text-[#f5f5f5] text-neutral-400 cursor-pointer duration-200"
                     onClick={() => toggleTimer(timer.id)}
-                    disabled={!timer.isRunning}
+                    
                   >
                     <VscDebugStop className="w-5 h-5" />
-                  </button>
-
-                  {/* Start button - aligned with trash (right bottom) */}
-                  <button
-                    className="absolute right-4 bottom-4 hover:text-[#404040] text-neutral-200 transition cursor-pointer duration-200"
+                  </Button>
+                  <Button
+                    className="absolute right-4 bottom-4 hover:text-[#f5f5f5] text-neutral-400 cursor-pointer duration-200"
                     onClick={() => toggleTimer(timer.id)}
-                    disabled={timer.isRunning}
+                    
                   >
                     <VscDebugStart className="w-5 h-5" />
-                  </button>
+                  </Button>
                 </CardFooter>
               </Card>
             );
@@ -267,7 +238,7 @@ const CountdownTimer = () => {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogContent className="bg-neutral-900 text-neutral-300 border-none">
             <DialogHeader>
-              <DialogTitle>new timer</DialogTitle>
+              <DialogTitle className="italic">new timer</DialogTitle>
             </DialogHeader>
             <Input
               type="number"
@@ -292,6 +263,14 @@ const CountdownTimer = () => {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        <div className="w-full px-5 py-8 mt-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-neutral-400 text-xs font-['Inter']">
+            <div>{currentTime}</div>
+            <div>
+              created by <a href="https://github.com/ilyastorunn" target="_blank" rel="noopener noreferrer">ilyas torun</a>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
