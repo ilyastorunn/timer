@@ -2,7 +2,7 @@
 
 **Timer** is a simple yet effective timer app built with React, TailwindCSS, and ShadCN. It's ideal for productivity tasks like Pomodoro, focused sessions, or general time tracking.
 
----
+![Timer App Screenshot](./src/assets/screenshot.png)
 
 ## Features
 
@@ -33,12 +33,12 @@
 
 1. Clone the repository
 ```bash
-git clone https://github.com/ilyastorunn/habits.git
+git clone https://github.com/ilyastorunn/timer.git
 ```
 
 2. Navigate to the project directory
 ```bash
-cd habits
+cd timer
 ```
 
 3. Install dependencies
